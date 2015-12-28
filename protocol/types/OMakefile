@@ -1,0 +1,27 @@
+ls *.ml | rev | cut -c 4- | rev > .all_ml_files
+
+# Source files without extension. One item per line, no trailing spaces.
+FILES[] = $(cat .all_ml_files)
+
+# We use ocamlfind
+USE_OCAMLFIND = true
+# All ocamlfind packages that we use
+OCAMLPACKS[] =
+   core
+   async
+   fieldslib.syntax
+   sexplib.syntax
+   camlp4
+   yojson
+# We need to tell omake that we want camlp4 preprocessing
+OCAMLFINDFLAGS = -syntax camlp4o
+
+# Compile into an executable
+OCamlLibrary(types_lib, $(FILES))
+
+# Cleanup
+.PHONY: clean
+clean:
+  rm -f \
+     $(filter-proper-targets $(glob $(addsuffix .*, $(FILES)))) \
+     $(PROGRAM).run $(PROGRAM).opt

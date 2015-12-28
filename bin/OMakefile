@@ -1,0 +1,34 @@
+# Program name (without extension)
+PROGRAM = test
+
+# Source files without extension. One item per line, no trailing spaces.
+FILES[] =
+  test
+
+# We use ocamlfind
+USE_OCAMLFIND = true
+# All ocamlfind packages that we use
+OCAMLPACKS[] =
+   core
+   async
+   camlp4
+   yojson
+# We need to tell omake that we want camlp4 preprocessing
+OCAMLFINDFLAGS = -syntax camlp4o
+
+OCAMLINCLUDES += ../protocol/methods ../protocol/types
+
+OCAML_LIBS = ../protocol/methods/methods_lib ../protocol/types/types_lib
+
+# Compile into an executable
+OCamlProgram($(PROGRAM), $(FILES))
+
+# Default target: compile into bytecode or native code, or both
+.DEFAULT: $(PROGRAM)$(EXE)
+
+# Cleanup
+.PHONY: clean
+clean:
+  rm -f \
+     $(filter-proper-targets $(glob $(addsuffix .*, $(FILES)))) \
+     $(PROGRAM).run $(PROGRAM).opt

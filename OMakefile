@@ -1,0 +1,5 @@
+OCAMLFLAGS += -thread
+
+BYTE_ENABLED = true
+
+.SUBDIRS: lib bin protocol

@@ -1,0 +1,12 @@
+*.omc
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.a
+*.cmxa
+*.opt
+.*
+!.gitignore
+
+bin/test
